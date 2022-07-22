@@ -3,15 +3,16 @@
 $csvDepartement = array_map("str_getcsv", file("departement.csv"));
 $departNum = "76";
 
+$csvVilles = array_map("str_getcsv", file("villes_france.csv"));
 
 print(departName($departNum, $csvDepartement));
 echo "<br>";
-print(villesDepart($departNum));
-echo "<br>";
+
 
 $date = "25/12/22";
 $num = 123126789012345;
 
+echo "<br>";
 print $date;
 echo "<br>";
 
@@ -23,6 +24,9 @@ var_dump(isNum($num));
 // print_r($csvDepartement);
 // echo "<pre>";
 
+echo "<pre>";
+print_r(villesDepart($departNum, $csvVilles));
+echo "<pre>";
 
 function tableauFerie(){
     $joursFeries = array("01/01/22", "18/04/22", "01/05/22", "08/05/22", "26/05/22", "06/06/22", "14/07/22", "15/08/22", "01/11/22", "11/11/22", "25/12/22");
@@ -70,15 +74,13 @@ function departName($departNum, $array){
     return $departFound;
 }
 
-function villesDepart($departNum){
-    $csvVilles = array_map("str_getcsv", file("villes_france.csv"));
+function villesDepart($departNum, $array){
     $departVilles = array();
-    foreach ($csvVilles as $key => $ville) {
+    foreach ($array as $key => $ville) {
         if ($departNum == $ville[1]) {
-            $departVilles += array_push($ville[5]);
+            array_push($departVilles,$ville[5]);
         }
     }
-    var_dump($departVilles);
     if (count($departVilles) == 0) {
         return "Département introuvable";
     }
