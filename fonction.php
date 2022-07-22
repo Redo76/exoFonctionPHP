@@ -86,3 +86,7 @@ function villesDepart($departNum, $array){
     }
     return $departVilles;
 }
+
+function weekDay($date){
+    
+}
