@@ -164,7 +164,8 @@ function mostEmploye(){
     foreach ($tableau as $key => $employe) {
         if ($value < $employe[3]) {
             $value = $employe[3];
+            $name = $employe[0];
         }
     }
-    return $value;
+    return $name;
 }
