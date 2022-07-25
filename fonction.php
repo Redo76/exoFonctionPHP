@@ -162,8 +162,8 @@ function mostEmploye(){
     include('tableau_datas.php');
     $value = 0;
     foreach ($tableau as $key => $employe) {
-        if ($value < $employe[3]) {
-            $value = $employe[3];
+        if ($value < substr(str_replace(",", "", $employe[5]), 1)) {
+            $value = substr(str_replace(",", "", $employe[5]), 1);
             $name = $employe[0];
         }
     }
