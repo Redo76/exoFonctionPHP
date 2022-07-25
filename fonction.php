@@ -15,7 +15,7 @@ print(departName($departNum, $csvDepartement));
 echo "<br>";
 
 
-$date = "25/12/22";
+$date = "2022-12-25";
 $num = 123126789012345;
 $parkingName = "Parking Baggersee";
 $ville = "New York";
