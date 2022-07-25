@@ -1,9 +1,15 @@
 <?php
+include_once("tableau_datas.php");
 
 $csvDepartement = array_map("str_getcsv", file("departement.csv"));
 $departNum = "76";
 
 $csvVilles = array_map("str_getcsv", file("villes_france.csv"));
+
+
+
+// $csvParking =  array_map("str_getcsv", file("occupation-parkings-temps-reel.csv"));
+$csvParking =  array_map(function($data) { return str_getcsv($data,";");}, file("occupation-parkings-temps-reel.csv"));
 
 print(departName($departNum, $csvDepartement));
 echo "<br>";
@@ -11,6 +17,8 @@ echo "<br>";
 
 $date = "25/12/22";
 $num = 123126789012345;
+$parkingName = "Parking Baggersee";
+$ville = "New York";
 
 echo "<br>";
 print $date;
@@ -20,13 +28,29 @@ var_dump(isFerie($date));
 echo "<br>";
 var_dump(isNum($num)); 
 
+echo "<br>";
+print(weekDay($date));
+echo "<br>";
+
+
+print(parkingState($parkingName, $csvParking));
+echo "<br>";
+print(parkingPlaces($parkingName, $csvParking));
+echo "<br>";
+
+print(employesVilles($ville, $tableau));
+echo "<br>";
+
+print(mostEmploye());
+echo "<br>";
+
 // echo "<pre>";
 // print_r($csvDepartement);
 // echo "<pre>";
 
-echo "<pre>";
-print_r(villesDepart($departNum, $csvVilles));
-echo "<pre>";
+// echo "<pre>";
+// print_r(villesDepart($departNum, $csvVilles));
+// echo "<pre>";
 
 function tableauFerie(){
     $joursFeries = array("01/01/22", "18/04/22", "01/05/22", "08/05/22", "26/05/22", "06/06/22", "14/07/22", "15/08/22", "01/11/22", "11/11/22", "25/12/22");
@@ -88,5 +112,55 @@ function villesDepart($departNum, $array){
 }
 
 function weekDay($date){
-    
+    $weekDay = date("l", strtotime($date));
+    $day = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+    $dayFrench = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
+    $frenchWeekDay = str_replace($day, $dayFrench, $weekDay);
+    return $frenchWeekDay;
+}
+
+function parkingState($parkingName, $array){
+    foreach ($array as $key => $parking) {
+        if ($parkingName == $parking[0]) {
+            return $parking[4];
+        }
+    }
+    $noPark = "Parking introuvable";
+    return $noPark;
+}
+
+function parkingPlaces($parkingName, $array){
+    foreach ($array as $key => $parking) {
+        if ($parkingName == $parking[0]) {
+            return $parking[6];
+        }
+    }
+    $noPark = "Parking introuvable";
+    return $noPark;
+}
+
+function employesVilles($villeName, $array){
+    $employes = array();
+    foreach ($array as $key => $employe) {
+        if ($villeName == $employe[2]) {
+            array_push($employes, $employe[0]);
+        }
+    }
+    if (count($employes) == 0) {
+        return "Ville introuvable";
+    }
+    else {
+        return count($employes);
+    }
+}
+
+function mostEmploye(){
+    include('tableau_datas.php');
+    $value = 0;
+    foreach ($tableau as $key => $employe) {
+        if ($value < $employe[3]) {
+            $value = $employe[3];
+        }
+    }
+    return $value;
 }
