@@ -53,8 +53,12 @@ echo "<br>";
 // echo "<pre>";
 
 function tableauFerie(){
-    $joursFeries = array("01/01/22", "18/04/22", "01/05/22", "08/05/22", "26/05/22", "06/06/22", "14/07/22", "15/08/22", "01/11/22", "11/11/22", "25/12/22");
-    return $joursFeries;
+    $joursFeriesTab = array_map("str_getcsv", file("jours_feries_metropole.csv"));
+    $jours = array();
+    foreach ($joursFeriesTab as $key => $joursFeries) {
+        array_push($jours, $joursFeries[0]);
+    }
+    return $jours;
 }
 
 function isFerie($date){
